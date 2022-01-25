@@ -12,6 +12,8 @@ This course primarily focuses on problems that emerge in healthcare and life sci
 
 This course has a a mid-term and final test in leu of a final project.
 
+Problem sets aren't perfect; they reflect my understanding of the material at the time they were submitted. 
+
 ## Assignments:
 
 1. Introduction to reinforcement the learning lanscape (environments, agents, and rewards), and E-Greedy (epsiolon greedy) selection method and model evaluation.
