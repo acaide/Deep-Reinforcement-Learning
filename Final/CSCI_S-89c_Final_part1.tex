@@ -1,0 +1,121 @@
+\documentclass[12pt]{letter}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+%\pagestyle{empty}
+\textwidth=6.1in \textheight=24cm \voffset=-3.7cm
+\oddsidemargin=3.6mm
+\usepackage{graphicx}
+\pagestyle{empty}
+
+\usepackage{enumerate}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{setspace}
+
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Corr}{\mathrm{Corr}}
+
+%\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+%\usepackage{geometry}
+
+%\geometry{top=1.6cm}
+%\geometry{bottom=3cm}
+%\geometry{left=2.6cm}
+%\geometry{right=2.4cm}
+\begin{document}
+\begin{flushleft}
+{\sc Name: \ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots\ldots}\\
+CSCI S-89c Deep Reinforcement Learning\\
+Part I of Final\\
+\end{flushleft}
+
+Suppose each state $s\in\mathcal{S}$ of the Markov Decision Process can be represented by a vector of 3 real-valued features: ${\bf x}(s) = (x_1(s), x_2(s), x_3(s))^T$.\medskip\\
+Given some policy $\pi$, suppose we model the state value function $v_\pi(s)$ with a {\it fully connected feedforward neural network} (please see the table below) which has three inputs ($x_{1}(s)$, $x_2(s)$, and $x_{3}(s)$), one hidden layer that consists of two neurons ($u_1$ and $u_2$) with Leaky Rectified Linear Unit (Leaky ReLU) activation functions, and one output ($\hat{v}(s,{\bf w}$)) with the Leaky ReLU activation function.\medskip\\
+The explicit representation of this network is
+
+{\footnotesize
+%hidden layer:
+%\begin{equation*}
+%\begin{aligned}
+%u_{\color{blue}1}=&\sigma(w^{(1)}_{0{\color{blue}1}}+w^{(1)}_{1{\color{blue}1}}x_{t-1}+w^{(1)}_{2{\color{blue}1}}x_{t-2}),\\
+%u_{\color{blue}2}=&\sigma(w^{(1)}_{0{\color{blue}2}}+w^{(1)}_{1{\color{blue}2}}x_{t-1}+w^{(1)}_{2{\color{blue}2}}x_{t-2}),
+%\end{aligned}
+%\end{equation*}
+%and the output layer:
+%\begin{equation*}
+%\begin{aligned}
+%x_t=&\sigma(w^{(2)}_{0}+w^{(2)}_{1}u_1+w^{(2)}_{2}u_2),\\
+%\end{aligned}
+%\end{equation*}
+
+{\doublespacing
+\begin{center}
+\begin{tabular}{ |c|c|c|c| }
+\hline
+ input layer & hidden layer & output layer\\
+\hline
+ $x_{1}$& \multirow{3}{*}{
+\begin{tabular}{l}
+$u_{\color{blue}1}=f(w^{(1)}_{0{\color{blue}1}}+w^{(1)}_{1{\color{blue}1}}x_{1}+w^{(1)}_{2{\color{blue}1}}x_{2}+w^{(1)}_{3{\color{blue}1}}x_{3})$\\
+$u_{\color{blue}2}=f(w^{(1)}_{0{\color{blue}2}}+w^{(1)}_{1{\color{blue}2}}x_{1}+w^{(1)}_{2{\color{blue}2}}x_{2}+w^{(1)}_{3{\color{blue}2}}x_{3})$
+\end{tabular}
+} & \multirow{3}{*}{$\hat{v}=f(w^{(2)}_{0}+w^{(2)}_{1}u_1+w^{(2)}_{2}u_2)$}\\
+ $x_{2}$ &  & \\
+ $x_{3}$ &  & \\
+\hline
+\end{tabular}
+\end{center}
+}}\vspace{0.2cm}
+
+
+
+
+
+Here, $f(x)$ denotes the following Leaky ReLU:
+$$f(x)=
+\begin{cases}
+x, \text{ if } x\geq 0,\\
+0.1x, \text{ if } x< 0.
+\end{cases}$$
+
+Assume that the weights,
+$${\bf w}=\big(
+\underbrace{w^{(1)}_{0{\color{blue}1}}, w^{(1)}_{1{\color{blue}1}},  w^{(1)}_{2{\color{blue}1}}, w^{(1)}_{3{\color{blue}1}},
+w^{(1)}_{0{\color{blue}2}}, w^{(1)}_{1{\color{blue}2}}, w^{(1)}_{2{\color{blue}2}}, w^{(1)}_{3{\color{blue}2}}}_{\text{hidden layer}},\,
+\underbrace{w^{(2)}_{0}, w^{(2)}_{1}, w^{(2)}_{2}}_{\text{output layer}}
+\big)^T,$$
+are currently estimated as follows:
+{\footnotesize
+{\doublespacing
+\begin{center}
+\begin{tabular}{ |c|c|c| }
+\hline
+ hidden layer & output layer\\
+\hline
+ $w^{(1)}_{0{\color{blue}1}} = -0.8, w^{(1)}_{1{\color{blue}1}}= 0.2,  w^{(1)}_{2{\color{blue}1}} = 0.3, w^{(1)}_{3{\color{blue}1}} = 0.9$ & \multirow{2}{*}{$w^{(2)}_{0} = 0.1, w^{(2)}_{1} = -0.3, w^{(2)}_{2}=1.4$}\\
+ $w^{(1)}_{0{\color{blue}2}} = 0.3, w^{(1)}_{1{\color{blue}2}} = -0.5, w^{(1)}_{2{\color{blue}2}} = -0.2, w^{(1)}_{3{\color{blue}2}} = -0.4$  & \\
+\hline
+\end{tabular}
+\end{center}
+}}\vspace{0.4cm}
+
+Assume the agent minimizes the mean squared error loss function,
+$$L\doteq \frac{1}{2} \left(\hat{v}(S_t,{\bf w})-v_\pi(S_t)\right)^2,$$
+using Stochastic Gradient Descent (SGD), i.e. the Neural Network is trained in mini-batches of size $1$.\medskip\\
+If for current state $S_t$, the features are $x_{1}(S_t)=1.2$, $x_2(S_t)=0.4$, and $x_3(S_t)=0.3$; and the agent ``observes'' $v_\pi(S_t)$ (this, of course, means the agent uses MC return, 1-step TD return, etc. as a ``measurement'' of $v_\pi(S_t)$) to be $3.2$, please find the next SGD update of the weights using $\alpha=0.1$:
+$${\bf w}-\alpha \nabla L,$$
+where $\nabla L \doteq \Big(
+\underbrace{\frac{\partial L}{\partial w^{(1)}_{0{\color{blue}1}}}, \frac{\partial L}{\partial w^{(1)}_{1{\color{blue}1}}},  \frac{\partial L}{\partial w^{(1)}_{2{\color{blue}1}}}, \frac{\partial L}{\partial w^{(1)}_{3{\color{blue}1}}},
+\frac{\partial L}{\partial w^{(1)}_{0{\color{blue}2}}}, \frac{\partial L}{\partial w^{(1)}_{1{\color{blue}2}}}, \frac{\partial L}{\partial w^{(1)}_{2{\color{blue}2}}}, \frac{\partial L}{\partial w^{(1)}_{3{\color{blue}2}}}}_{\text{hidden layer}},\,
+\underbrace{\frac{\partial L}{\partial w^{(2)}_{0}}, \frac{\partial L}{\partial w^{(2)}_{1}}, \frac{\partial L}{\partial w^{(2)}_{2}}}_{\text{output layer}}
+\Big)^T.$\medskip\\
+Please notice that the ``measurement'' of the state-value $v_\pi(S_t)$ here is considered to be independent of ${\bf w}$ (please see, for example, the Semi-gradient 1-step Temporal-Difference (TD) prediction).
+
+SOLUTION:
+
+
+
+
+\end{document}
