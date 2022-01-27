@@ -6,13 +6,13 @@ CSCI S-89C - Deep Reinforcement Learning - Summer 2020
 
 This course introduces Deep Reinforcement Learning (RL), one of the most modern techniques of machine learning. 
 
-Deep RL is often seen as the third area of machine learning, in addition to supervised and unsupervised algorithms, in which learning of an agent occurs as a result of its own actions and interaction with the environment. Generally, such learning processes do not need to be guided externally, but it has been difficult until recently to use RL ideas practically. 
+Reinforcement Learning (RL) is often seen as the third area of machine learning, in addition to supervised and unsupervised algorithms, in which learning of an agent occurs as a result of its own actions and interaction with the environment. Generally, such learning processes do not need to be guided externally, but it has been difficult until recently to use RL ideas practically. 
 
 This course primarily focuses on problems that emerge in healthcare and life science applications. Each assignment has a theoretical (pen and paper) component and a practical (jupyter notebook) component.
 
 This course has a a mid-term and final test in leu of a final project.
 
-Problem sets aren't perfect; they reflect my understanding of the material at the time they were submitted. 
+Problem sets aren't perfect; they reflect my understanding of the material at the time they were submitted. **Note**: While this course is officially called 'Deep RL', neural networks were implemented towards the very end of the course in the last two lectures + homework assignment. 
 
 ## Assignments:
 
